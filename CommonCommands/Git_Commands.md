@@ -96,4 +96,4 @@ chore：构建过程或辅助工具的变动
 
 ### 3、删除分支
 - `git branch -d <branchName>`：删除本地分支
-- `git push origin --delete <branchName>`：删除本地分支
+- `git push origin --delete <branchName>`：删除远程分支
