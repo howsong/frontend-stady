@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+         <script type="text/javascript">
+        function say(){
+            alert("这是father的say()");
+        }
+        function callChild(){
+            myFrame.window.say();
+            myFrame.window.document.getElementById("button").value="调用结束"
+        }
+    </script>
+    </head>
+    <body>
+         <input id="button" type="button" value="调用son.html中的函数say()" onclick="callChild()"/>
+    <iframe name="myFrame" src="son.html"></iframe>
+    </body>
+</html>

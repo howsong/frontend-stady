@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <script type="text/javascript">
+            function say() {
+                alert("这是son的say()");
+            }
+            function callParent() {
+                parent.say();
+                parent.window.document.getElementById("button").value = "调用结束";
+            }
+        </script>
+    </head>
+    <body>
+        <input id="button" type="button" value="调用father.html中的say()函数" onclick="callParent()" />
+    </body>
+</html>

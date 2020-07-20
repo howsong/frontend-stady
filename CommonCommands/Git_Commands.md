@@ -9,6 +9,8 @@
 - `git push origin [branch1]`：推送本地的branch1分支到远程origin仓库上，如果远程不存在branch1分支则会新建一个branch1分支。
 - `git push --force origin`：git push的时候需要本地先git pull更新到跟服务器版本一致，如果本地版本库比远程服务器上的低，那么一般会提示你git pull更新，如果一定要提交，那么可以使用这个命令
 - `git push origin --delete [branchName]`: 删除远程分支
+- `git push --set-upstream origin <branchName>`：本地存在分支 远程不存在
+
 
 
 ### 二、git status
@@ -48,18 +50,21 @@ chore：构建过程或辅助工具的变动
 ### 八、git diff <文件名>
 >将工作区中的文件和暂存区的进行比较
 
-### 九、git branch
+### 九、git branch 分支操作
 - `git branch -v`：查看本地库中的所有分支
 - `git branch -vv`：查看本地分支和本地分支与远程的关联关系
 - `git branch [branchName]`：创建一个新的分支
 - `git branch -a`：查看所有分支，包括远程分支和本地分支
-- `git branch -d [branchName]`：删除远程分支 （在主分支上）
+- `git branch -d [branchName]`：删除本地分支 （在主分支上）
+- `git push origin --delete <branchName>`：删除远程分支
+- `git branch --set-upstream-to origin/<branchName>`：本地分支与远程分支建立关联 
 
 
 ### 十、git checkout 
 - `git checkout [branchName]` 切换到指定分支
-- `git checkout --track origin/[branchName]` 本地新建一个与远程分支一样名称的分支，并切换到该分支
 - `git checkout -- [file path]` 撤销工作区的更改
+- `git checkout --track origin/[branchName]` 本地新建一个与远程分支一样名称的分支，并切换到该分支
+
 
 ### 十一、git merge 
 - git merge [branchName] (将branchName分支的修改合并到当前分支)
@@ -85,15 +90,3 @@ chore：构建过程或辅助工具的变动
 - git config --global user.name [AAA]
 - git config --global user.email [邮箱地址]
 - (签名信息位置：cd ~ 、cat .gitconfig)
-
-### 2、关联分支
-- `git branch --set-upstream-to origin/<branchName>`：本地分支与远程分支建立关联 
-
-- `git checkout --track origin/<branchName>`：本地不存在分支 远程存在分支 在远程创建一个与本地名字相同并关联的分支  
-
-- `git push --set-upstream origin <branchName>`：本地存在分支 远程不存在
-
-
-### 3、删除分支
-- `git branch -d <branchName>`：删除本地分支
-- `git push origin --delete <branchName>`：删除远程分支

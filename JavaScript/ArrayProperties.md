@@ -1,5 +1,3 @@
-# Array方法
-
 ### concat 
 > 合并多个数组；合并多个字符串
 ```javascript
