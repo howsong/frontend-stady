@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    @keyframes leftMove {
+      from {left:200px;}
+      to{left: 250px;}
+    }
+    @-webkit-keyframes leftMove {
+      from {left:200px;}
+      to{left: 250px;}
+    }
+    @keyframes rightMove {
+      from {left:350px;}
+      to{left: 400px;}
+    }
+    @-webkit-keyframes rightMove {
+      from {left:350px;}
+      to{left: 400px;}
+    }
+    .continer{
+      position: relative;
+      width: 600px;
+      height: 400px;
+      background-color: #8e8e8e;
+    }
+    .ball{
+      position: absolute;
+      bottom: 0;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+    .left_ball{
+      left: 200px;
+      background-color: orange;
+      animation: leftMove 1s ease-in-out 0s infinite alternate;
+      -webkit-animation: leftMove 1s ease-in-out 0s infinite alternate;
+    }
+    .middle_ball{
+      left: 300px;
+      background-color: red;
+    }
+    .right_ball{
+      left: 400px;
+      background-color: aquamarine;
+      animation: rightMove 1s ease-in-out 0s infinite alternate;
+      -webkit-animation: rightMove 1s ease-in-out 0s infinite alternate;
+    }
+  </style>
+</head>
+<body>
+  <div class="continer">
+    <div class="left_ball ball" id="leftBall"></div>
+    <div class="middle_ball ball" id="middleBall"></div>
+    <div class="right_ball ball" id="rightBall"></div>
+  </div>
+  <script>
+
+  </script>
+</body>
+</html>
