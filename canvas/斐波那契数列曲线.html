@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>使用canvas 绘制一个有限度的斐波那契数列的曲线</title>
+  </head>
+
+  <body style="display: block; width: 98%; height: 98%">
+    <canvas id="canvas" style="width: 40%; height: 40%; vertical-align: middle"></canvas>
+
+    <script type="text/javascript">
+      //生成斐波那契数组的方法
+      function getFibonacci(n) {
+        var fibarr = [];
+        var i = 0;
+        while (i < n) {
+          if (i <= 1) {
+            fibarr.push(i * 10);
+            //fibarr.push(i * 2);
+          } else {
+            fibarr.push(fibarr[i - 1] + fibarr[i - 2]);
+          }
+          i++;
+        }
+        return fibarr;
+      }
+      var step = 10; //10步（0, 10, 10, 20, 30, 50, 80, 130, 210, 340），8个圆弧拼接起来的线条
+      //var step = 15;//15步（0, 10, 10, 20, 30, 50, 80, 130, 210, 340, 550, 890, 1440, 2330, 3770），13个圆弧拼接起来的线条
+      var poArr = getFibonacci(step);
+      console.log(poArr);
+
+      //储存所有圆弧的圆点坐标及半径 的数组
+      var pot = [];
+      //最外侧4个（4个方向)的圆弧圆点坐标及半径（根据本文章上面的图片坐标手动设置）
+      pot.push({ x: poArr[step - 1], y: poArr[step - 1], h: poArr[step - 1] }); //第一个圆弧圆点坐标及半径
+      pot.push({ x: poArr[step - 1], y: poArr[step - 2], h: poArr[step - 2] }); //第二个圆弧圆点坐标及半径
+      pot.push({ x: poArr[step - 1] + poArr[step - 4], y: poArr[step - 2], h: poArr[step - 3] }); //第三个圆弧圆点坐标及半径
+      pot.push({
+        x: poArr[step - 1] + poArr[step - 4],
+        y: poArr[step - 1] - poArr[step - 4],
+        h: poArr[step - 4]
+      }); //第四个圆弧圆点坐标及半径
+
+      var index = 0;
+      //循环输出其它步数的圆弧圆点坐标及半径（，根据前4步，同一方向的圆弧找规律），前4步在上面已经设置过了
+      for (i = poArr.length - 5; i > 0; i--) {
+        index++;
+        if (index % 4 == 1) {
+          pot.push({
+            x: pot[pot.length - 4].x + poArr[i],
+            y: pot[pot.length - 4].y - poArr[i + 1],
+            h: poArr[i]
+          }); //第一个圆弧同一方向的圆弧
+        } else if (index % 4 == 2) {
+          pot.push({
+            x: pot[pot.length - 4].x + poArr[i + 1],
+            y: pot[pot.length - 4].y + poArr[i],
+            h: poArr[i]
+          }); //第二个圆弧同一方向的圆弧
+        } else if (index % 4 == 3) {
+          pot.push({
+            x: pot[pot.length - 4].x - poArr[i],
+            y: pot[pot.length - 4].y + poArr[i + 1],
+            h: poArr[i]
+          }); //第三个圆弧同一方向的圆弧
+        } else if (index % 4 == 0) {
+          pot.push({
+            x: pot[pot.length - 4].x - poArr[i + 1],
+            y: pot[pot.length - 4].y - poArr[i],
+            h: poArr[i]
+          }); //第四个圆弧同一方向的圆弧
+        }
+        if (i == 2) {
+          break;
+        }
+      }
+      console.log(pot);
+
+      var cvs = document.getElementById("canvas");
+      var cvs2d = cvs.getContext("2d");
+      //cvs.width = cvs.height = poArr[step - 1 ] + poArr[step - 2 ];
+      cvs.width = poArr[step - 1] + poArr[step - 2];
+      cvs.height = poArr[step - 1];
+      cvs2d.beginPath();
+      cvs2d.strokeStyle = "#ff0000";
+
+      console.log(cvs.width - poArr[8], cvs.height, poArr[9]);
+      console.log(cvs.width - poArr[8], cvs.height - poArr[7], poArr[8]);
+      console.log(cvs.width - poArr[7], cvs.height - poArr[7], poArr[7]);
+      console.log(cvs.width - poArr[7], cvs.height - poArr[6], poArr[6]);
+      console.log(cvs.width - poArr[7] - poArr[3] - poArr[2], cvs.height - poArr[6], poArr[5]);
+      console.log(
+        cvs.width - poArr[7] - poArr[3] - poArr[2],
+        cvs.height - poArr[7] + poArr[4],
+        poArr[4]
+      );
+      console.log(cvs.width - poArr[7] - poArr[3], cvs.height - poArr[7] + poArr[4], poArr[3]);
+      console.log(cvs.width - poArr[7] - poArr[3], cvs.height - poArr[6] - poArr[2], poArr[2]);
+      //手动画出的圆弧
+      //	cvs2d.arc(cvs.width - poArr[8],cvs.height,poArr[9],1 * Math.PI,1.5 * Math.PI);
+      //	cvs2d.arc(cvs.width - poArr[8],cvs.height - poArr[7],poArr[8],1.5 * Math.PI,0);
+      //	cvs2d.arc(cvs.width - poArr[7],cvs.height - poArr[7],poArr[7],0,.5 * Math.PI);
+      //	cvs2d.arc(cvs.width - poArr[7],cvs.height - poArr[6],poArr[6],.5 * Math.PI,1 * Math.PI);
+      //
+      //	cvs2d.arc(cvs.width - poArr[7] - poArr[3] - poArr[2],cvs.height - poArr[6],poArr[5],1 * Math.PI,1.5 * Math.PI);
+      //	cvs2d.arc(cvs.width - poArr[7] - poArr[3] - poArr[2],cvs.height - poArr[7] + poArr[4],poArr[4],1.5 * Math.PI,0);
+      //	cvs2d.arc(cvs.width - poArr[7] - poArr[3],cvs.height - poArr[7] + poArr[4],poArr[3],0,.5 * Math.PI);
+      //	cvs2d.arc(cvs.width - poArr[7] - poArr[3],cvs.height - poArr[6] - poArr[2],poArr[2],.5 * Math.PI,1 * Math.PI);
+
+      var index2 = 0;
+      //CANVAS画出所有圆弧
+      for (i in pot) {
+        index2++;
+        if (index2 % 4 == 1) {
+          cvs2d.arc(pot[i].x, pot[i].y, pot[i].h, 1 * Math.PI, 1.5 * Math.PI); //第一个圆弧方向的圆弧
+        } else if (index2 % 4 == 2) {
+          cvs2d.arc(pot[i].x, pot[i].y, pot[i].h, 1.5 * Math.PI, 0); //第二个圆弧方向的圆弧
+        } else if (index2 % 4 == 3) {
+          cvs2d.arc(pot[i].x, pot[i].y, pot[i].h, 0, 0.5 * Math.PI); //第三个圆弧方向的圆弧
+        } else if (index2 % 4 == 0) {
+          cvs2d.arc(pot[i].x, pot[i].y, pot[i].h, 0.5 * Math.PI, 1 * Math.PI); //第四个圆弧方向的圆弧
+        }
+      }
+
+      cvs2d.stroke();
+    </script>
+  </body>
+</html>
